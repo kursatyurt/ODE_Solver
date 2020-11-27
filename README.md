@@ -4,7 +4,11 @@ This project is an additional part of the Advanced Programming (IN1503) course. 
 
 
 # Sprint 1 Feature
-(To be constructed)
+1. layout (completed)
+2. explicit euler method (to do)
+3. write to file (to do)
+4. read user method input (to do )
+5. read ode function from user (to do)
 
 # Test Environment
 1. linux
