@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include <cassert>
+#include <cmath>
 #include "eeSolver.hpp"
 
 /********
