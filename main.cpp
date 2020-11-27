@@ -4,15 +4,19 @@
 #include <cassert>
 #include "eeSolver.hpp"
 
-//Function of the ODE 
-double ode(double a)
+/********
+Function of the ODE 
+***********/
+double ode(double y, double t)
 {
-     double x;
-     x = 9.81 -(1.229*3.14*1.15/(2*100)) * std::pow(a,2)  ; // Insert the ODE here
-     return x;
+     double ydot;
+	 ydot = 9.81 -(1.229*3.14*1.15/(2*100)) * std::pow(t,2)  ; // Insert the ODE here
+     return ydot;
  }    
 
-//
+/********
+writeToFile
+***********/
 void writeToFile(
 	const std::vector<double> &timeSequence, 
 	const std::vector<double> &y_values)
@@ -22,12 +26,11 @@ void writeToFile(
 
 }
 
+/********
+main
+***********/
 int main(int argc, char *argv[])
 {
-	/************
-
-	***************/
-
 	/*******************
 	1. Ask user which method
 	*******************/
@@ -52,8 +55,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	auto result = pSolver->solve(y0, dt, finaltime);
-
+	auto result = pSolver->solve(ode, y0, dt, finaltime);
 	for (int i = 0; i < std::get<0>(result).size(); ++i)
 	{
 		std::cout << std::get<0>(result)[i] << " " << std::get<1>(result)[i] << "\n";

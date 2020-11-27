@@ -1,11 +1,16 @@
 #include "eeSolver.hpp"
 #include<cmath>
-
+#include <iostream>
 std::tuple<std::vector<double>, std::vector<double>>
-EESolver::solve(double initialValue, double dt, double totalTime)
+EESolver::solve(std::function<double(double, double)> ode, double initialValue, double dt, double totalTime)
 {
 	std::vector<double> outputTimeSequence = {1,2,3};
 	std::vector<double> outputNumericalSolutionSequence = {1.5,2.5,3};
+
+	/***** 
+	test functional
+	*****/
+	std::cout << ode(1, 1) << "\n";
 
 	/*********
 	 implementation
