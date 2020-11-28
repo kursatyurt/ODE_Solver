@@ -35,6 +35,20 @@ int main(int argc, char *argv[])
 	/*******************
 	1. Ask user which method
 	*******************/
+        std::cout << "Please enter which method would you like to use\n";
+	std::cout << "Explicit Euler : 1 , Implicit Euler : 2, RK4 : 3\n";
+	std::cout << "Default is Explicit Euler\n";
+        int method (1);
+	std::cin >> method;
+	/**
+    Sanitize the input
+    **/
+    if (method < 1 || method > 3){
+		std::cout << "Wrong Choice !!!\n";
+		std::cout << "Default method will be used\n";
+		method = 1;
+	}
+	std::cout << "Chosen method is " << method << std::endl;
 
 
 	/*******************
@@ -61,10 +75,12 @@ int main(int argc, char *argv[])
 	{
 		std::cout << std::get<0>(result)[i] << " " << std::get<1>(result)[i] << "\n";
 	}
+
 	/*******************
 	4. Write to file
 	*******************/
 	writeToFile(std::get<0>(result), std::get<1>(result));
+
 
     return 0;
  }
