@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include <cassert>
+#include <fstream>
 #include <cmath>
 #include "eeSolver.hpp"
 
@@ -11,7 +12,7 @@ Function of the ODE
 double ode(double y, double t)
 {
      double ydot;
-	 ydot = 9.81 -(1.229*3.14*1.15/(2*100)) * std::pow(t,2)  ; // Insert the ODE here
+	 ydot = (1.0 - y/10.0) * y; // Insert the ODE here
      return ydot;
  }    
 
@@ -22,7 +23,19 @@ void writeToFile(
 	const std::vector<double> &timeSequence, 
 	const std::vector<double> &y_values)
 {
-	
+    // Open the results file
+    std::ofstream outputFile("results.csv");
+
+    //Write the header
+	outputFile << "Time, y value\n" ;   
+
+    for (int i=0; i < timeSequence.size() ; i++){
+        outputFile << timeSequence.at(i) << " , " << y_values.at(i) << std::endl;
+	}
+
+    
+    // Close the file
+    outputFile.close();	
 
 
 }
@@ -59,9 +72,10 @@ int main(int argc, char *argv[])
 	/*******************
 	3. Compute the numerical vector
 	*******************/
-	double dt = 0.1; // Step Size for the solver
+	double dt = 0.001; // Step Size for the solver
+	double startTime = 0; // Solution start Time for the solver
 	double finaltime = 10; // Final Time for the solver
-	double y0 = 0; // initial value
+	double y0 = 1; // initial value
 
 	std::shared_ptr<BaseSolver> pSolver(new EESolver());
 	if (pSolver == NULL)	
@@ -70,11 +84,11 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	auto result = pSolver->solve(ode, y0, dt, finaltime);
-	for (int i = 0; i < std::get<0>(result).size(); ++i)
-	{
-		std::cout << std::get<0>(result)[i] << " " << std::get<1>(result)[i] << "\n";
-	}
+	auto result = pSolver->solve(ode, y0, startTime, dt, finaltime);
+//	for (int i = 0; i < std::get<0>(result).size(); ++i)
+//	{
+//		std::cout << std::get<0>(result)[i] << " " << std::get<1>(result)[i] << "\n";
+//	}
 
 	/*******************
 	4. Write to file
