@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/kursatyurt/TUM/Adv_Prog/project_ode_solver/build",
+  "command": "/usr/bin/g++    -O2 -DNDEBUG   -std=c++11 -o CMakeFiles/ode_solver.dir/main.cpp.o -c /home/kursatyurt/TUM/Adv_Prog/project_ode_solver/main.cpp",
+  "file": "/home/kursatyurt/TUM/Adv_Prog/project_ode_solver/main.cpp"
+},
+{
+  "directory": "/home/kursatyurt/TUM/Adv_Prog/project_ode_solver/build",
+  "command": "/usr/bin/g++    -O2 -DNDEBUG   -std=c++11 -o CMakeFiles/ode_solver.dir/eeSolver.cpp.o -c /home/kursatyurt/TUM/Adv_Prog/project_ode_solver/eeSolver.cpp",
+  "file": "/home/kursatyurt/TUM/Adv_Prog/project_ode_solver/eeSolver.cpp"
+}
+]
