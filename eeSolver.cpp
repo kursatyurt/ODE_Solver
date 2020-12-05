@@ -1,11 +1,11 @@
 #include "eeSolver.hpp"
-#include<cmath>
+#include <cmath>
 #include <iostream>
 std::tuple<std::vector<double>, std::vector<double>>
-EESolver::solve(std::function<double(double, double)> ode, double initialValue, double dt, double totalTime)
+EESolver::solve(std::function<double(double, double)> ode, double initialValue, double startTime, double dt, double totalTime)
 {
-	std::vector<double> outputTimeSequence = {1,2,3};
-	std::vector<double> outputNumericalSolutionSequence = {1.5,2.5,3};
+	std::vector<double> outputTimeSequence = {1, 2, 3};
+	std::vector<double> outputNumericalSolutionSequence = {1.5, 2.5, 3};
 
 	/***** 
 	test functional
@@ -15,27 +15,19 @@ EESolver::solve(std::function<double(double, double)> ode, double initialValue, 
 	/*********
 	 implementation
 	**********/
-	//double time;
-	//std::vector<double> velocity{ 0.0 }; // Solution Vector
+	// Allocate vector size for output sequences
+	outputTimeSequence.resize(static_cast<int>(floor((totalTime - startTime) / dt)+1));
+	outputNumericalSolutionSequence.resize(static_cast<int>(floor((totalTime - startTime) / dt)+1));
 
-	//time = 0.0; // Initialize Time 
-	////Solution Loop for Explicit Euler
-	//while (time < finaltime)
-	//{
-	//	double veln = velocity.back() + ode(velocity.back()) * dt;
-	//	velocity.push_back(veln);
-	//	time += dt;
-	//}
+	// Initialize
+	outputNumericalSolutionSequence[0] = ode( initialValue, startTime );
+    outputTimeSequence.at(0) = startTime;
+	//Solution Loop
 
-
-	//time = 0.0; //Initialize Time for Output 
-	////Output loop that print  Time and Velocity to Screen
-	//for (int n : velocity)
-	//{
-	//	std::cout << time << '\b' << n << '\n';
-	//	time += dt;
-	//}
-
+	for (int i = 1; i < outputTimeSequence.size() ; i++){
+		outputNumericalSolutionSequence.at(i) = outputNumericalSolutionSequence.at(i-1) + dt * ode(outputNumericalSolutionSequence.at(i-1), outputTimeSequence.at(i-1));
+        outputTimeSequence.at(i) = outputTimeSequence.at(i-1) + dt;
+	}
 
 	return std::make_tuple(outputTimeSequence, outputNumericalSolutionSequence);
 }
