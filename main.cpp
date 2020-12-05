@@ -7,6 +7,14 @@
 #include "eeSolver.hpp"
 
 /********
+ODE parameters
+***********/
+double dt = 0.005; // Step Size for the solver
+double startTime = 0; // Solution start Time for the solver
+double finaltime = 10; // Final Time for the solver
+double y_0 = 1.0; // initial value
+
+/********
 Function of the ODE 
 ***********/
 double ode(double y, double t)
@@ -15,6 +23,16 @@ double ode(double y, double t)
 	 ydot = (1.0 - y/10.0) * y; // Insert the ODE here
      return ydot;
  }    
+
+/********
+Analytic solution of the corresponding ode
+***********/
+double analytic_sol(double t0, double t)
+{
+	double y;
+	y = 10.0 / (1. + exp(-(t-t0)) * 9.0);
+	return y;
+}
 
 /********
 writeToFile
@@ -33,11 +51,8 @@ void writeToFile(
         outputFile << timeSequence.at(i) << " , " << y_values.at(i) << std::endl;
 	}
 
-    
     // Close the file
     outputFile.close();	
-
-
 }
 
 /********
@@ -48,10 +63,10 @@ int main(int argc, char *argv[])
 	/*******************
 	1. Ask user which method
 	*******************/
-        std::cout << "Please enter which method would you like to use\n";
+    std::cout << "Please enter which method would you like to use\n";
 	std::cout << "Explicit Euler : 1 , Implicit Euler : 2, RK4 : 3\n";
-	std::cout << "Default is Explicit Euler\n";
-        int method (1);
+
+    int method (1);
 	std::cin >> method;
 	/**
     Sanitize the input
@@ -67,16 +82,11 @@ int main(int argc, char *argv[])
 	/*******************
 	2. Ask for ODE (hard code at the beginning)
 	*******************/
-
+	
 
 	/*******************
 	3. Compute the numerical vector
 	*******************/
-	double dt = 0.001; // Step Size for the solver
-	double startTime = 0; // Solution start Time for the solver
-	double finaltime = 10; // Final Time for the solver
-	double y0 = 1; // initial value
-
 	std::shared_ptr<BaseSolver> pSolver(new EESolver());
 	if (pSolver == NULL)	
 	{
@@ -84,17 +94,28 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	auto result = pSolver->solve(ode, y0, startTime, dt, finaltime);
-//	for (int i = 0; i < std::get<0>(result).size(); ++i)
-//	{
-//		std::cout << std::get<0>(result)[i] << " " << std::get<1>(result)[i] << "\n";
-//	}
+	auto result = pSolver->solve(ode, y_0, startTime, dt, finaltime);
 
 	/*******************
 	4. Write to file
 	*******************/
 	writeToFile(std::get<0>(result), std::get<1>(result));
 
+	/*******************
+	5. Testing: comparing to analytic result
+	*******************/
+	double err = 0;
+	for (int i = 0; i < std::get<0>(result).size(); ++i)
+	{
+		double time = std::get<0>(result)[i];
+		double exact_sol = analytic_sol(startTime,time);
+		double y = std::get<1>(result)[i];
+		double single_err_term = exact_sol - y;
+		single_err_term = single_err_term * single_err_term;
+		err += single_err_term;
+	}
+	err = sqrt(err *(double)dt / (double)finaltime);
+	std::cout << "Error is " << err << "\n";
 
     return 0;
  }
