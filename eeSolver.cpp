@@ -4,13 +4,8 @@
 std::tuple<std::vector<double>, std::vector<double>>
 EESolver::solve(std::function<double(double, double)> ode, double initialValue, double startTime, double dt, double totalTime)
 {
-	std::vector<double> outputTimeSequence = {1, 2, 3};
-	std::vector<double> outputNumericalSolutionSequence = {1.5, 2.5, 3};
-
-	/***** 
-	test functional
-	*****/
-	std::cout << ode(1, 1) << "\n";
+	std::vector<double> outputTimeSequence;
+	std::vector<double> outputNumericalSolutionSequence;
 
 	/*********
 	 implementation
@@ -20,7 +15,7 @@ EESolver::solve(std::function<double(double, double)> ode, double initialValue, 
 	outputNumericalSolutionSequence.resize(static_cast<int>(floor((totalTime - startTime) / dt)+1));
 
 	// Initialize
-	outputNumericalSolutionSequence[0] = ode( initialValue, startTime );
+	outputNumericalSolutionSequence[0] = initialValue;
     outputTimeSequence.at(0) = startTime;
 	//Solution Loop
 
