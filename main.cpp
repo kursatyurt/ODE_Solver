@@ -5,7 +5,7 @@
 #include <fstream>
 #include <cmath>
 #include "eeSolver.hpp"
-
+#include "ieSolver.hpp"
 /********
 ODE parameters
 ***********/
@@ -45,7 +45,8 @@ void writeToFile(
     std::ofstream outputFile("results.csv");
 	if (!outputFile.is_open())
 	{
-		throw "write to file fail";
+		throw std::exception("write to file fail");
+		return;
 	}
 
     //Write the header
@@ -67,15 +68,15 @@ int main(int argc, char *argv[])
 	/*******************
 	1. Ask user which method
 	*******************/
-    std::cout << "Please enter which method would you like to use\n";
+	std::cout << "Please enter which method would you like to use\n";
 	std::cout << "Explicit Euler : 1 , Implicit Euler : 2, RK4 : 3\n";
 
-    int method (1);
+	int method(1);
 	std::cin >> method;
 	/**
-    Sanitize the input
-    **/
-    if (method < 1 || method > 3){
+	Sanitize the input
+	**/
+	if (method < 1 || method > 3) {
 		std::cout << "Wrong Choice !!!\n";
 		std::cout << "Default method will be used\n";
 		method = 1;
@@ -86,18 +87,30 @@ int main(int argc, char *argv[])
 	/*******************
 	2. Ask for ODE (hard code at the beginning)
 	*******************/
-	
+
 
 	/*******************
 	3. Compute the numerical vector
 	*******************/
-	std::unique_ptr<BaseSolver> pSolver = std::make_unique<EESolver>();
-	if (pSolver == nullptr)
+	std::unique_ptr<BaseSolver> pSolver;
+	switch (method)
 	{
-		throw "pSolver new fail";
-		return -1;
+		case 1:
+			pSolver = std::make_unique<EESolver>();
+			break;
+		case 2:
+			pSolver = std::make_unique<IESolver>();
+			break;
+		default:
+			pSolver = std::make_unique<EESolver>();
+			break;
 	}
 
+	if (pSolver == nullptr)
+	{
+		throw std::exception("no pSolver constructed");
+		return -1;
+	}
 	auto result = pSolver->solve(ode, y_0, startTime, dt, finaltime);
 
 	/*******************
