@@ -43,6 +43,10 @@ void writeToFile(
 {
     // Open the results file
     std::ofstream outputFile("results.csv");
+	if (!outputFile.is_open())
+	{
+		throw "write to file fail";
+	}
 
     //Write the header
 	outputFile << "Time, y value\n" ;   
@@ -87,8 +91,8 @@ int main(int argc, char *argv[])
 	/*******************
 	3. Compute the numerical vector
 	*******************/
-	std::shared_ptr<BaseSolver> pSolver(new EESolver());
-	if (pSolver == NULL)	
+	std::unique_ptr<BaseSolver> pSolver = std::make_unique<EESolver>();
+	if (pSolver == nullptr)
 	{
 		throw "pSolver new fail";
 		return -1;
@@ -99,8 +103,15 @@ int main(int argc, char *argv[])
 	/*******************
 	4. Write to file
 	*******************/
-	writeToFile(std::get<0>(result), std::get<1>(result));
-
+	try
+	{
+		writeToFile(std::get<0>(result), std::get<1>(result));
+	}
+	catch (const std::exception& e) 
+	{
+		std::cerr << "catch exception" << e.what() << "\n";
+	}
+	
 	/*******************
 	5. Testing: comparing to analytic result
 	*******************/
