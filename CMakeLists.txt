@@ -6,4 +6,5 @@ add_definitions(-std=c++11)
 add_executable(ode_solver			
 "./main.cpp"
 "./eeSolver.cpp"
+"./ieSolver.cpp"
 )
