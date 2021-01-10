@@ -9,7 +9,7 @@
 /********
 ODE parameters
 ***********/
-double dt = 0.005; // Step Size for the solver
+double dt = 0.05; // Step Size for the solver
 double startTime = 0; // Solution start Time for the solver
 double finaltime = 10; // Final Time for the solver
 double y_0 = 1.0; // initial value

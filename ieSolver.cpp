@@ -12,14 +12,16 @@ std::tuple<bool, double> secant_method(
 	double diff_guess = 1.;
 	
 	double current_guess = initial_guess;
-	double previous_guess = current_guess + 0.05;
+	double previous_guess = current_guess + 0.05; // secant method needs two initial guesses. 
 	double next_guess = 1.;
 
 	unsigned current_iter = 0;
 	while (abs(diff_guess) > epsilon* abs(current_guess) && current_iter < max_iteration_num)
 	{
-		next_guess = current_guess - G(current_guess) * (current_guess-previous_guess) / (G(current_guess) - G(previous_guess));
+		double Gcurrent_guess = G(current_guess);
+		next_guess = current_guess - Gcurrent_guess * (current_guess - previous_guess) / (Gcurrent_guess - G(previous_guess));
 		diff_guess = next_guess - current_guess;
+		previous_guess = current_guess;
 		current_guess = next_guess;
 		current_iter = current_iter + 1;
 	}
@@ -60,7 +62,7 @@ IESolver::solve(std::function<double(double, double)> ode, double initialValue, 
 		double tmp2 = outputTimeSequence.at(i - 1);
 		auto g = [ode,tmp1, tmp2, dt](double y)
 		{
-			return y - tmp1 - dt * ode(tmp2 + dt, y);
+			return y - tmp1 - dt * ode( y, tmp2 + dt);
 		};
 
 		auto result = secant_method(g,outputNumericalSolutionSequence.at(i - 1));
