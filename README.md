@@ -4,15 +4,18 @@ This project is an additional part of the Advanced Programming (IN1503) course. 
 
 
 # Sprint 1 Feature
-1. layout (completed)
-2. read user method input (completed )
-3. explicit euler method (completed)
-4. write results to file (completed) 
-5. read ode function from user (to do)
+1. Layout (completed)
+2. Read user method input (completed )
+3. Explicit Euler Method (completed)
+4. Write results to file (completed) 
+5. Read ODE Function From User (to do)
+
+# Sprint 2 Feature 
+1. Implicit Euler Metho (Completed) 
 
 # Test Environment
-1. linux
-2. vs2017
+1. Linux
+2. VS2017
 
 # Build instruction
 ```
