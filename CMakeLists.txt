@@ -7,4 +7,5 @@ add_executable(ode_solver
 "./main.cpp"
 "./eeSolver.cpp"
 "./ieSolver.cpp"
+"./rk4Solver.cpp"
 )

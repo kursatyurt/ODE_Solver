@@ -7,6 +7,7 @@
 #include <exception>
 #include "eeSolver.hpp"
 #include "ieSolver.hpp"
+#include "rk4Solver.hpp"
 /********
 ODE parameters
 ***********/
@@ -101,6 +102,9 @@ int main(int argc, char *argv[])
 			break;
 		case 2:
 			pSolver = std::make_unique<IESolver>();
+			break;
+		case 3:
+			pSolver = std::make_unique<rk4Solver>();
 			break;
 		default:
 			pSolver = std::make_unique<EESolver>();
