@@ -4,6 +4,7 @@
 #include <cassert>
 #include <fstream>
 #include <cmath>
+#include <exception>
 #include "eeSolver.hpp"
 #include "ieSolver.hpp"
 /********
@@ -45,7 +46,7 @@ void writeToFile(
     std::ofstream outputFile("results.csv");
 	if (!outputFile.is_open())
 	{
-		throw std::exception("write to file fail");
+		//throw std::exception("write to file fail");
 		return;
 	}
 
@@ -108,7 +109,7 @@ int main(int argc, char *argv[])
 
 	if (pSolver == nullptr)
 	{
-		throw std::exception("no pSolver constructed");
+	//	throw std::exception("no pSolver constructed");
 		return -1;
 	}
 	auto result = pSolver->solve(ode, y_0, startTime, dt, finaltime);
