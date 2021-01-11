@@ -81,7 +81,7 @@ Second thing is you need a implementation file. Since we are using same base sol
 - Implement your own version of solver
 - Add your solver to CmakeLists.txt as shown below
 
-'''
+```
 add_executable(ode_solver			
 "./main.cpp"
 "./eeSolver.cpp"
@@ -89,7 +89,7 @@ add_executable(ode_solver
 "./rk4Solver.cpp"
 "./yourSolver.cpp"
 )
-'''
+```
 
 - Rebuild the program and enjoy
 
