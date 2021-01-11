@@ -11,7 +11,9 @@ This project is an additional part of the Advanced Programming (IN1503) course. 
 5. Read ODE Function From User (to do)
 
 # Sprint 2 Feature 
-1. Implicit Euler Metho (Completed) 
+1. Implicit Euler Method (Completed)
+2. Runge-Kutta 4 Method (Completed)
+3. Added A Guide to How to Implement Your New Solver (Completed) 
 
 # Test Environment
 1. Linux
@@ -64,3 +66,30 @@ double analytic_sol(double t0, double t)
 	return y;
 }
 ```
+
+
+# How To Implement New Solver ?
+
+First thing you might need a header file the easiest way is just copy an existing solver.
+**Don't forget to change the name of the solver.**
+
+Second thing is you need a implementation file. Since we are using same base solver you can pick a closest implementation or Explicit Euler Solver since it is simplest solver. 
+
+- Change header file from euler to your solver
+- Change solver name 
+- Delete implementation details of Explicit Euler Solver
+- Implement your own version of solver
+- Add your solver to CmakeLists.txt as shown below
+
+'''
+add_executable(ode_solver			
+"./main.cpp"
+"./eeSolver.cpp"
+"./ieSolver.cpp"
+"./rk4Solver.cpp"
+"./yourSolver.cpp"
+)
+'''
+
+- Rebuild the program and enjoy
+
