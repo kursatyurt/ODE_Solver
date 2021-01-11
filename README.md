@@ -1,16 +1,17 @@
-# project_ode_solver
-
-This project is an additional part of the Advanced Programming (IN1503) course. The project consists of 3 sprints, in each sprint a the code will evolve and gain more futures.
+# ODE Solver Project 
 
 
-# Sprint 1 Feature
+This project is an additional part of the **Advanced Programming (IN1503)** course. The project consists of 3 sprints, in each sprint a the code will evolve and gain more futures.
+
+
+# Sprint 1 Features
 1. Layout (completed)
 2. Read user method input (completed )
 3. Explicit Euler Method (completed)
 4. Write results to file (completed) 
 5. Read ODE Function From User (to do)
 
-# Sprint 2 Feature 
+# Sprint 2 Features
 1. Implicit Euler Method (Completed)
 2. Runge-Kutta 4 Method (Completed)
 3. Added A Guide to How to Implement Your New Solver (Completed) 
