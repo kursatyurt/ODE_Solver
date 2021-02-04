@@ -47,7 +47,7 @@ void writeToFile(
     std::ofstream outputFile("results.csv");
 	if (!outputFile.is_open())
 	{
-		//throw std::exception("write to file fail");
+		throw std::runtime_error("Write to file fail");
 		return;
 	}
 
