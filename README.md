@@ -16,6 +16,11 @@ This project is an additional part of the **Advanced Programming (IN1503)** cour
 2. Runge-Kutta 4 Method (Completed)
 3. Added A Guide to How to Implement Your New Solver (Completed) 
 
+# Sprint 3 Features
+
+1. Outputs are in Scientific Format
+2. Timing for sections added
+
 # Test Environment
 1. Linux
 2. VS2017
