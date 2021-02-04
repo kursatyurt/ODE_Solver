@@ -3,15 +3,17 @@
 #include <memory>
 #include <cassert>
 #include <fstream>
+#include <chrono>
 #include <cmath>
 #include <exception>
+#include <iomanip>
 #include "eeSolver.hpp"
 #include "ieSolver.hpp"
 #include "rk4Solver.hpp"
 /********
 ODE parameters
 ***********/
-double dt = 0.05; // Step Size for the solver
+double dt = 1e-3; // Step Size for the solver
 double startTime = 0; // Solution start Time for the solver
 double finaltime = 10; // Final Time for the solver
 double y_0 = 1.0; // initial value
@@ -53,10 +55,17 @@ void writeToFile(
 
     //Write the header
 	outputFile << "Time, y value\n" ;   
+	std::setprecision(4);
 
-    for (int i=0; i < timeSequence.size() ; i++){
-        outputFile << timeSequence.at(i) << " , " << y_values.at(i) << std::endl;
+    for (int i=0; i < timeSequence.size()-3 ; i+= 4){
+        outputFile << timeSequence[i] << " , " << y_values[i] << std::endl << std::scientific;
+        outputFile << timeSequence[i+1] << " , " << y_values[i+1] << std::endl << std::scientific;
+        outputFile << timeSequence[i+2] << " , " << y_values[i+2] << std::endl << std::scientific;
+        outputFile << timeSequence[i+3] << " , " << y_values[i+3] << std::endl << std::scientific;
 	}
+//    for (int i=0; i < timeSequence.size() ; i++){
+//        outputFile << timeSequence.at(i) << " , " << y_values.at(i) << std::endl;
+//	}
 
     // Close the file
     outputFile.close();	
@@ -116,11 +125,23 @@ int main(int argc, char *argv[])
 	//	throw std::exception("no pSolver constructed");
 		return -1;
 	}
+
+//Setup Timing
+	std::chrono::time_point<std::chrono::system_clock> start;
+	std::chrono::time_point<std::chrono::system_clock> end;
+
+	start = std::chrono::system_clock::now();
+// Get Result
 	auto result = pSolver->solve(ode, y_0, startTime, dt, finaltime);
 
+// Print Timing
+	end = std::chrono::system_clock::now();
+	auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	std::cout << "Elapsed time in solver:" << elapsed_time.count() << "ms" << std::endl;
 	/*******************
 	4. Write to file
 	*******************/
+	start = std::chrono::system_clock::now();
 	try
 	{
 		writeToFile(std::get<0>(result), std::get<1>(result));
@@ -129,7 +150,9 @@ int main(int argc, char *argv[])
 	{
 		std::cerr << "catch exception" << e.what() << "\n";
 	}
-	
+	end = std::chrono::system_clock::now();
+	elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	std::cout << "Elapsed time in file writing:" << elapsed_time.count() << "ms" << std::endl;
 	/*******************
 	5. Testing: comparing to analytic result
 	*******************/
@@ -144,7 +167,8 @@ int main(int argc, char *argv[])
 		err += single_err_term;
 	}
 	err = sqrt(err *(double)dt / (double)finaltime);
-	std::cout << "Error is " << err << "\n";
+
+	std::cout  << std::scientific << std::cout.precision(3)<< "Error is " << err << "\n" ;
 
     return 0;
  }
