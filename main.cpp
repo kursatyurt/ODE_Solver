@@ -7,13 +7,15 @@
 #include <cmath>
 #include <exception>
 #include <iomanip>
+#include <errno.h>
+#include <stdio.h>
 #include "eeSolver.hpp"
 #include "ieSolver.hpp"
 #include "rk4Solver.hpp"
 /********
 ODE parameters
 ***********/
-double dt = 1e-4; // Step Size for the solver
+double dt = 1e-5; // Step Size for the solver
 double startTime = 0; // Solution start Time for the solver
 double finaltime = 10; // Final Time for the solver
 double y_0 = 1.0; // initial value
@@ -71,8 +73,6 @@ void writeToFile(
     outputFile.close();	
 }
 
-#include <errno.h>
-#include <stdio.h>
 void writeToFile_v2(
 	const std::vector<double> &timeSequence,
 	const std::vector<double> &y_values)
