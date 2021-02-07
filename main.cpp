@@ -13,7 +13,7 @@
 /********
 ODE parameters
 ***********/
-double dt = 1e-3; // Step Size for the solver
+double dt = 1e-4; // Step Size for the solver
 double startTime = 0; // Solution start Time for the solver
 double finaltime = 10; // Final Time for the solver
 double y_0 = 1.0; // initial value
@@ -69,6 +69,31 @@ void writeToFile(
 
     // Close the file
     outputFile.close();	
+}
+
+#include <errno.h>
+#include <stdio.h>
+void writeToFile_v2(
+	const std::vector<double> &timeSequence,
+	const std::vector<double> &y_values)
+{
+	// Open the results file
+	std::FILE *f;
+	errno_t err;
+	err = fopen_s(&f, "results.csv", "w");
+	if (err != 0)
+	{
+		throw std::runtime_error("Write to file fail");
+		return;
+	}
+
+	//Write the header
+	std::fprintf(f, "Time, y value\n");
+	for (int i=0; i < timeSequence.size() ; i++)
+	{
+		std::fprintf(f, "%f , %f\n", timeSequence.at(i), y_values.at(i));
+	}
+	std::fclose(f);
 }
 
 /********
@@ -144,7 +169,7 @@ int main(int argc, char *argv[])
 	start = std::chrono::system_clock::now();
 	try
 	{
-		writeToFile(std::get<0>(result), std::get<1>(result));
+		writeToFile_v2(std::get<0>(result), std::get<1>(result));
 	}
 	catch (const std::exception& e) 
 	{
@@ -167,8 +192,6 @@ int main(int argc, char *argv[])
 		err += single_err_term;
 	}
 	err = sqrt(err *(double)dt / (double)finaltime);
-
-	std::cout  << std::scientific << std::cout.precision(3)<< "Error is " << err << "\n" ;
-
+	std::cout<< "Error is "  << std::scientific<< std::setprecision(3) << err << "\n" ;
     return 0;
  }
