@@ -7,7 +7,6 @@
 #include <cmath>
 #include <exception>
 #include <iomanip>
-#include <errno.h>
 #include <stdio.h>
 #include "eeSolver.hpp"
 #include "ieSolver.hpp"
@@ -78,10 +77,8 @@ void writeToFile_v2(
 	const std::vector<double> &y_values)
 {
 	// Open the results file
-	std::FILE *f;
-	errno_t err;
-	err = fopen_s(&f, "results.csv", "w");
-	if (err != 0)
+	std::FILE *f = fopen("results.csv", "w");
+	if (f == nullptr)
 	{
 		throw std::runtime_error("Write to file fail");
 		return;
