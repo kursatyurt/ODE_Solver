@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 
 	if (pSolver == nullptr)
 	{
-	//	throw std::exception("no pSolver constructed");
+		throw std::runtime_error("no pSolver constructed");
 		return -1;
 	}
 
