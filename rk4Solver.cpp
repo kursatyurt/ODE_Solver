@@ -20,14 +20,21 @@ rk4Solver::solve(std::function<double(double, double)> ode, double initialValue,
 	//Solution Loop
 
 	for (int i = 1; i < outputTimeSequence.size() ; i++){
-		auto k1 = ode(outputNumericalSolutionSequence.at(i-1), outputTimeSequence.at(i-1));
-		auto k2 = ode(outputNumericalSolutionSequence.at(i-1)+dt/2.0d*k1, outputTimeSequence.at(i-1)+dt/2.0d);
-		auto k3 = ode(outputNumericalSolutionSequence.at(i-1)+dt/2.0d*k2, outputTimeSequence.at(i-1)+dt/2.0d);
-		auto k4 = ode(outputNumericalSolutionSequence.at(i-1)+dt/2.0d*k3, outputTimeSequence.at(i-1)+dt);
+//		auto k1 = ode(outputNumericalSolutionSequence.at(i-1), outputTimeSequence.at(i-1));
+//		auto k2 = ode(outputNumericalSolutionSequence.at(i-1)+dt/2.0d*k1, outputTimeSequence.at(i-1)+dt/2.0d);
+//		auto k3 = ode(outputNumericalSolutionSequence.at(i-1)+dt/2.0d*k2, outputTimeSequence.at(i-1)+dt/2.0d);
+//		auto k4 = ode(outputNumericalSolutionSequence.at(i-1)+dt/2.0d*k3, outputTimeSequence.at(i-1)+dt);
+//		outputNumericalSolutionSequence.at(i) = outputNumericalSolutionSequence.at(i-1) + dt * 1.0d/6.0d *(k1+2.0d*k2+2.0d*k3+k4) ;
+//      outputTimeSequence.at(i) = outputTimeSequence.at(i-1) + dt;
+
+		auto k1 = ode(outputNumericalSolutionSequence[i-1], outputTimeSequence[i-1]);
+		auto k2 = ode(outputNumericalSolutionSequence[i-1]+dt/2.0d*k1, outputTimeSequence[i-1]+dt/2.0d);
+		auto k3 = ode(outputNumericalSolutionSequence[i-1]+dt/2.0d*k2, outputTimeSequence[i-1]+dt/2.0d);
+		auto k4 = ode(outputNumericalSolutionSequence[i-1]+dt/2.0d*k3, outputTimeSequence[i-1]+dt);
 		
 		
-		outputNumericalSolutionSequence.at(i) = outputNumericalSolutionSequence.at(i-1) + dt * 1.0d/6.0d *(k1+2.0d*k2+2.0d*k3+k4) ;
-        outputTimeSequence.at(i) = outputTimeSequence.at(i-1) + dt;
+		outputNumericalSolutionSequence[i] = outputNumericalSolutionSequence[i-1] + dt * 1.0d/6.0d *(k1+2.0d*k2+2.0d*k3+k4) ;
+        outputTimeSequence[i] = outputTimeSequence[i-1] + dt;
 
 	}
 
