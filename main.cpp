@@ -165,8 +165,11 @@ int main(int argc, char *argv[])
 	*******************/
 	start = std::chrono::system_clock::now();
 	try
-	{
-		writeToFile_v2(std::get<0>(result), std::get<1>(result));
+	{  
+       // First Version of writeToFile Function
+	   // writeToFile(std::get<0>(result), std::get<1>(result));
+       // New Version of writeToFile Function
+	   writeToFile_v2(std::get<0>(result), std::get<1>(result));
 	}
 	catch (const std::exception& e) 
 	{
