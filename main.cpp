@@ -4,12 +4,14 @@
 #include <cassert>
 #include <fstream>
 #include <cmath>
+#include <exception>
 #include "eeSolver.hpp"
-
+#include "ieSolver.hpp"
+#include "rk4Solver.hpp"
 /********
 ODE parameters
 ***********/
-double dt = 0.005; // Step Size for the solver
+double dt = 0.05; // Step Size for the solver
 double startTime = 0; // Solution start Time for the solver
 double finaltime = 10; // Final Time for the solver
 double y_0 = 1.0; // initial value
@@ -43,6 +45,11 @@ void writeToFile(
 {
     // Open the results file
     std::ofstream outputFile("results.csv");
+	if (!outputFile.is_open())
+	{
+		//throw std::exception("write to file fail");
+		return;
+	}
 
     //Write the header
 	outputFile << "Time, y value\n" ;   
@@ -63,15 +70,15 @@ int main(int argc, char *argv[])
 	/*******************
 	1. Ask user which method
 	*******************/
-    std::cout << "Please enter which method would you like to use\n";
+	std::cout << "Please enter which method would you like to use\n";
 	std::cout << "Explicit Euler : 1 , Implicit Euler : 2, RK4 : 3\n";
 
-    int method (1);
+	int method(1);
 	std::cin >> method;
 	/**
-    Sanitize the input
-    **/
-    if (method < 1 || method > 3){
+	Sanitize the input
+	**/
+	if (method < 1 || method > 3) {
 		std::cout << "Wrong Choice !!!\n";
 		std::cout << "Default method will be used\n";
 		method = 1;
@@ -82,25 +89,47 @@ int main(int argc, char *argv[])
 	/*******************
 	2. Ask for ODE (hard code at the beginning)
 	*******************/
-	
+
 
 	/*******************
 	3. Compute the numerical vector
 	*******************/
-	std::shared_ptr<BaseSolver> pSolver(new EESolver());
-	if (pSolver == NULL)	
+	std::unique_ptr<BaseSolver> pSolver;
+	switch (method)
 	{
-		throw "pSolver new fail";
-		return -1;
+		case 1:
+			pSolver = std::make_unique<EESolver>();
+			break;
+		case 2:
+			pSolver = std::make_unique<IESolver>();
+			break;
+		case 3:
+			pSolver = std::make_unique<rk4Solver>();
+			break;
+		default:
+			pSolver = std::make_unique<EESolver>();
+			break;
 	}
 
+	if (pSolver == nullptr)
+	{
+	//	throw std::exception("no pSolver constructed");
+		return -1;
+	}
 	auto result = pSolver->solve(ode, y_0, startTime, dt, finaltime);
 
 	/*******************
 	4. Write to file
 	*******************/
-	writeToFile(std::get<0>(result), std::get<1>(result));
-
+	try
+	{
+		writeToFile(std::get<0>(result), std::get<1>(result));
+	}
+	catch (const std::exception& e) 
+	{
+		std::cerr << "catch exception" << e.what() << "\n";
+	}
+	
 	/*******************
 	5. Testing: comparing to analytic result
 	*******************/

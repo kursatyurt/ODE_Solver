@@ -1,6 +1,6 @@
 # pragma once
 #include "baseSolver.hpp"
-class EESolver : public BaseSolver
+class IESolver : public BaseSolver
 {
 public:
 	std::tuple<std::vector<double>, std::vector<double>>
