@@ -22,3 +22,12 @@ A loop unrolling is applied to Explicit Euler Solver. The time spent in EESolver
 
 Initial code was used .at() method of std::vector which automaticly does a bound check. To investigate effect of boundary checking rk4solver has been changed at [] operator to access vector elements. Timing results how that bound checking has little/no effect on timing of rk4solver. 
 
+## Effect of Optimization Option
+
+Compile option -O1,-O2 and -O3 are tested. All three options enjoy similar performance improvement. The speed up is about 4 times compare to not using the optimization option.
+
+
+|Method         | Raw Runtime (ms) | -O1 Runtime (ms)  | -O2 Runtime (ms) | -O3 Runtime (ms)
+|-------------- | ---------------- | --------------  | ----------------------   |-----------------
+|Explicit Euler  | 200             | 59            | 58                        | 63
+
