@@ -181,17 +181,53 @@ int main(int argc, char *argv[])
 	/*******************
 	5. Testing: comparing to analytic result
 	*******************/
+	start = std::chrono::system_clock::now();
 	double err = 0;
-	for (int i = 0; i < std::get<0>(result).size(); ++i)
+	//for (int i = 0; i < std::get<0>(result).size(); ++i)
+	//{
+	//	double time = std::get<0>(result)[i];
+	//	double exact_sol = analytic_sol(startTime,time);
+	//	double y = std::get<1>(result)[i];
+	//	double single_err_term = exact_sol - y;
+	//	single_err_term = single_err_term * single_err_term;
+	//	err += single_err_term;
+	//}
+	//err = sqrt(err *(double)dt / (double)finaltime);
+
+	for (int i = 0; i < std::get<0>(result).size(); i += 4)
 	{
 		double time = std::get<0>(result)[i];
 		double exact_sol = analytic_sol(startTime,time);
 		double y = std::get<1>(result)[i];
 		double single_err_term = exact_sol - y;
+
+		double time2 = std::get<0>(result)[i+1];
+		double exact_sol2 = analytic_sol(startTime, time2);
+		double y2 = std::get<1>(result)[i+1];
+		double single_err_term2 = exact_sol2 - y2;
+
+		double time3 = std::get<0>(result)[i+2];
+		double exact_sol3 = analytic_sol(startTime, time3);
+		double y3 = std::get<1>(result)[i+2];
+		double single_err_term3 = exact_sol3 - y3;
+
+		double time4 = std::get<0>(result)[i+3];
+		double exact_sol4 = analytic_sol(startTime, time4);
+		double y4 = std::get<1>(result)[i+3];
+		double single_err_term4 = exact_sol4 - y4;
+
 		single_err_term = single_err_term * single_err_term;
-		err += single_err_term;
+		single_err_term2 = single_err_term2 * single_err_term2;
+		single_err_term3 = single_err_term3 * single_err_term3;
+		single_err_term4 = single_err_term4 * single_err_term4;
+		err += (single_err_term+ single_err_term2+ single_err_term3+ single_err_term4);
 	}
 	err = sqrt(err *(double)dt / (double)finaltime);
+
+	end = std::chrono::system_clock::now();
+	elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	std::cout << "Elapsed time in result comparison:" << elapsed_time.count() << "ms" << std::endl;
+
 	std::cout<< "Error is "  << std::scientific<< std::setprecision(3) << err << "\n" ;
     return 0;
  }
