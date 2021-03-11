@@ -16,6 +16,11 @@ This project is an additional part of the **Advanced Programming (IN1503)** cour
 2. Runge-Kutta 4 Method (Completed)
 3. Added A Guide to How to Implement Your New Solver (Completed) 
 
+# Sprint 3 Features
+
+1. Outputs are in Scientific Format
+2. Timing for sections added
+3. A new writeToFile Function is added
 # Test Environment
 1. Linux
 2. VS2017
@@ -69,7 +74,7 @@ double analytic_sol(double t0, double t)
 ```
 
 
-# How To Implement New Solver ?
+# How To Implement New Solver?
 
 First thing you might need a header file the easiest way is just copy an existing solver.
 **Don't forget to change the name of the solver.**
@@ -93,4 +98,3 @@ add_executable(ode_solver
 ```
 
 - Rebuild the program and enjoy
-
